@@ -122,99 +122,101 @@ const { avatar, email, name } = user;
   <script>
     "astro:load";
 
-    const palabras = [
-      "creativo",
-      "aventurero",
-      "amigable",
-      "entusiasta",
-      "soñador",
-      "analítico",
-      "optimista",
-      "detallista",
-      "curioso",
-      "dinámico",
-      "autónomo",
-      "inteligente",
-      "proactivo",
-      "práctico",
-      "inspirador",
-      "divertido",
-      "tranquilo",
-      "sociable",
-      "respetuoso",
-      "innovador",
-      "dedicado",
-      "imaginativo",
-      "auténtico",
-      "empático",
-      "solidario",
-      "disciplinado",
-      "adaptable",
-      "apasionado",
-      "explorador",
-      "honesto",
-      "organizado",
-      "responsable",
-      "colaborativo",
-      "flexible",
-      "determinante",
-      "estratégico",
-      "resiliente",
-      "eficiente",
-      "activo",
-      "puntual",
-      "afable",
-      "pragmático",
-      "visionario",
-      "emocional",
-      "diverso",
-      "artístico",
-      "leal",
-      "reflexivo",
-      "positivo",
-      "próspero",
-      "sereno",
-    ];
+    document.addEventListener("astro:page-load", () => {
+      const palabras = [
+        "creativo",
+        "aventurero",
+        "amigable",
+        "entusiasta",
+        "soñador",
+        "analítico",
+        "optimista",
+        "detallista",
+        "curioso",
+        "dinámico",
+        "autónomo",
+        "inteligente",
+        "proactivo",
+        "práctico",
+        "inspirador",
+        "divertido",
+        "tranquilo",
+        "sociable",
+        "respetuoso",
+        "innovador",
+        "dedicado",
+        "imaginativo",
+        "auténtico",
+        "empático",
+        "solidario",
+        "disciplinado",
+        "adaptable",
+        "apasionado",
+        "explorador",
+        "honesto",
+        "organizado",
+        "responsable",
+        "colaborativo",
+        "flexible",
+        "determinante",
+        "estratégico",
+        "resiliente",
+        "eficiente",
+        "activo",
+        "puntual",
+        "afable",
+        "pragmático",
+        "visionario",
+        "emocional",
+        "diverso",
+        "artístico",
+        "leal",
+        "reflexivo",
+        "positivo",
+        "próspero",
+        "sereno",
+      ];
 
-    const followers = Math.floor(Math.random() * 1000);
-    const following = Math.floor(Math.random() * 1000);
+      const followers = Math.floor(Math.random() * 1000);
+      const following = Math.floor(Math.random() * 1000);
 
-    const $followersElement = document.getElementById(
-      "followers"
-    ) as HTMLDivElement;
-    const $followingElement = document.getElementById(
-      "following"
-    ) as HTMLDivElement;
+      const $followersElement = document.getElementById(
+        "followers"
+      ) as HTMLDivElement;
+      const $followingElement = document.getElementById(
+        "following"
+      ) as HTMLDivElement;
 
-    const prefixes = ["", "K", "M", "B", "T"];
-    const getRandomPrefixNumber = () => {
-      const prefixIndex = Math.floor(Math.random() * prefixes.length);
-      return prefixes[prefixIndex];
-    };
+      const prefixes = ["", "K", "M", "B", "T"];
+      const getRandomPrefixNumber = () => {
+        const prefixIndex = Math.floor(Math.random() * prefixes.length);
+        return prefixes[prefixIndex];
+      };
 
-    $followersElement.textContent = followers + getRandomPrefixNumber();
-    $followingElement.textContent = following + getRandomPrefixNumber();
+      $followersElement.textContent = followers + getRandomPrefixNumber();
+      $followingElement.textContent = following + getRandomPrefixNumber();
 
-    // Seleccionar aleatoriamente 20 palabras
-    const generarDescripcion = () => {
-      const descripcion = [];
-      const palabrasUsadas = new Set();
+      // Seleccionar aleatoriamente 20 palabras
+      const generarDescripcion = () => {
+        const descripcion = [];
+        const palabrasUsadas = new Set();
 
-      while (descripcion.length < 10) {
-        const palabra = palabras[Math.floor(Math.random() * palabras.length)];
-        if (!palabrasUsadas.has(palabra)) {
-          palabrasUsadas.add(palabra);
-          descripcion.push(palabra);
+        while (descripcion.length < 10) {
+          const palabra = palabras[Math.floor(Math.random() * palabras.length)];
+          if (!palabrasUsadas.has(palabra)) {
+            palabrasUsadas.add(palabra);
+            descripcion.push(palabra);
+          }
         }
-      }
 
-      return descripcion.join(", ");
-    };
+        return descripcion.join(", ");
+      };
 
-    // Cargar la descripción en el elemento con id="description"
-    const $description = document.getElementById(
-      "description"
-    ) as HTMLParagraphElement;
-    $description.textContent = generarDescripcion() + ".";
+      // Cargar la descripción en el elemento con id="description"
+      const $description = document.getElementById(
+        "description"
+      ) as HTMLParagraphElement;
+      $description.textContent = generarDescripcion() + ".";
+    });
   </script>
 </Layout>
