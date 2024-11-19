@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import { firebase } from "../../firebase/config";
 import Layout from "../../layouts/Layout.astro";
 
-// const firebaseUser = firebase.auth.currentUser;
+const firebaseUser = firebase.auth.currentUser;
 
 // if (!firebaseUser) {
 //   return Astro.redirect("/login");
@@ -18,14 +18,15 @@ import Layout from "../../layouts/Layout.astro";
 //     return Astro.redirect("/");
 // }
 
-const {user, isLoggedIn} = Astro.locals;
+const { user, isLoggedIn } = Astro.locals;
 
 if (!isLoggedIn) {
   return Astro.redirect("/login");
 }
 
-const {avatar, email, emailVerified, name} = user;
-
+await firebaseUser?.reload();
+const { emailVerified } = firebaseUser!;
+const { avatar, email, name } = user;
 ---
 
 <Layout title="Pagina Protegida">
