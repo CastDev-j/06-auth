@@ -1,0 +1,219 @@
+---
+import { Image } from "astro:assets";
+import { firebase } from "../../firebase/config";
+import Layout from "../../layouts/Layout.astro";
+
+// const firebaseUser = firebase.auth.currentUser;
+
+// if (!firebaseUser) {
+//   return Astro.redirect("/login");
+// }
+
+// await firebaseUser?.reload();
+// const { displayName, email, emailVerified, avatar } = firebaseUser;
+
+// const name = displayName ?? "Invitado";
+
+// if (true) {
+//     return Astro.redirect("/");
+// }
+
+const {user, isLoggedIn} = Astro.locals;
+
+if (!isLoggedIn) {
+  return Astro.redirect("/login");
+}
+
+const {avatar, email, emailVerified, name} = user;
+
+---
+
+<Layout title="Pagina Protegida">
+  <!-- component -->
+  <div class="my-40 flex justify-center items-center font-sans bg-white">
+    <div class="card border bg-white mx-auto p-6 rounded-lg max-w-md">
+      <!-- Imagen del perfil -->
+      {
+        avatar ? (
+          <img
+            src={avatar}
+            alt="Foto de perfil"
+            class="w-32 mx-auto rounded-full -mt-24 border-8"
+          />
+        ) : (
+          <div class="w-32 h-32 mx-auto rounded-full -mt-20 border-8 border-white bg-blue-400 flex justify-center items-center">
+            <span class="text-white text-3xl font-extrabold">
+              {name!.substring(0, 2)}
+            </span>
+          </div>
+        )
+      }
+      <!-- Información del perfil -->
+      <div class="text-center mt-6">
+        <h1 class="text-2xl font-bold text-blue-400">{name}</h1>
+        <p class="text-sm font-medium text-gray-700">{email}</p>
+        <div class="flex items-center justify-center my-6">
+          <p class="text-sm font-medium text-gray-500 mr-1">
+            {emailVerified ? "Correo verificado" : "Correo no verificado"}
+          </p>
+          {
+            emailVerified ? (
+              <svg
+                class="w-5 h-5 text-green-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            ) : (
+              <svg
+                class="w-5 h-5 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            )
+          }
+        </div>
+      </div>
+      <!-- Descripción -->
+      <div class="px-6 mt-4 text-center text-sm text-gray-700">
+        <p id="description">
+          Frontend Developer, avid reader. Love to take a long walk, swim.
+        </p>
+      </div>
+      <!-- Línea divisoria -->
+      <hr class="mt-6 border-t-2 border-gray-200" />
+      <!-- Estadísticas -->
+      <div class="flex mt-6">
+        <div class="w-1/2 text-center">
+          <span class="font-bold text-lg text-red-400"
+            ><div id="followers">0</div></span
+          >
+          <p class="text-sm text-gray-600">Followers</p>
+        </div>
+        <div class="w-px bg-gray-300"></div>
+        <div class="w-1/2 text-center">
+          <span class="font-bold text-lg text-red-400"
+            ><div id="following">0</div></span
+          >
+          <p class="text-sm text-gray-600">Following</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "astro:load";
+
+    const palabras = [
+      "creativo",
+      "aventurero",
+      "amigable",
+      "entusiasta",
+      "soñador",
+      "analítico",
+      "optimista",
+      "detallista",
+      "curioso",
+      "dinámico",
+      "autónomo",
+      "inteligente",
+      "proactivo",
+      "práctico",
+      "inspirador",
+      "divertido",
+      "tranquilo",
+      "sociable",
+      "respetuoso",
+      "innovador",
+      "dedicado",
+      "imaginativo",
+      "auténtico",
+      "empático",
+      "solidario",
+      "disciplinado",
+      "adaptable",
+      "apasionado",
+      "explorador",
+      "honesto",
+      "organizado",
+      "responsable",
+      "colaborativo",
+      "flexible",
+      "determinante",
+      "estratégico",
+      "resiliente",
+      "eficiente",
+      "activo",
+      "puntual",
+      "afable",
+      "pragmático",
+      "visionario",
+      "emocional",
+      "diverso",
+      "artístico",
+      "leal",
+      "reflexivo",
+      "positivo",
+      "próspero",
+      "sereno",
+    ];
+
+    const followers = Math.floor(Math.random() * 1000);
+    const following = Math.floor(Math.random() * 1000);
+
+    const $followersElement = document.getElementById(
+      "followers"
+    ) as HTMLDivElement;
+    const $followingElement = document.getElementById(
+      "following"
+    ) as HTMLDivElement;
+
+    const prefixes = ["", "K", "M", "B", "T"];
+    const getRandomPrefixNumber = () => {
+      const prefixIndex = Math.floor(Math.random() * prefixes.length);
+      return prefixes[prefixIndex];
+    };
+
+    $followersElement.textContent = followers + getRandomPrefixNumber();
+    $followingElement.textContent = following + getRandomPrefixNumber();
+
+    // Seleccionar aleatoriamente 20 palabras
+    const generarDescripcion = () => {
+      const descripcion = [];
+      const palabrasUsadas = new Set();
+
+      while (descripcion.length < 10) {
+        const palabra = palabras[Math.floor(Math.random() * palabras.length)];
+        if (!palabrasUsadas.has(palabra)) {
+          palabrasUsadas.add(palabra);
+          descripcion.push(palabra);
+        }
+      }
+
+      return descripcion.join(", ");
+    };
+
+    // Cargar la descripción en el elemento con id="description"
+    const $description = document.getElementById(
+      "description"
+    ) as HTMLParagraphElement;
+    $description.textContent = generarDescripcion() + ".";
+  </script>
+</Layout>

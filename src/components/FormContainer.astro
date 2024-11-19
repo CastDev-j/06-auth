@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title = "Componente Contenedor de Formulario" } = Astro.props;
+---
+
+<div
+  class="font-sans min-h-screen flex items-center justify-center bg-gray-100 animate"
+>
+  <div class="relative w-full max-w-sm min-w-min px-6">
+    <!-- Decorative Cards -->
+    <div
+      class="absolute inset-0 transform rotate-6 bg-blue-400 shadow-lg rounded-3xl"
+    >
+    </div>
+    <div
+      class="absolute inset-0 transform -rotate-6 bg-red-400 shadow-lg rounded-3xl"
+    >
+    </div>
+
+    <!-- Form Container -->
+    <!-- Login Form -->
+    <div class="relative bg-white p-6 rounded-3xl shadow-md">
+      <h1 class="text-center text-xl font-semibold text-gray-700">{title}</h1>
+      <slot />
+      
+    </div>
+  </div>
+</div>

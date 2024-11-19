@@ -1,0 +1,56 @@
+---
+const { isLoggedIn } = Astro.locals;
+---
+
+<footer class="bg-white text-gray-800 py-8 px-4 md:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="border-t border-gray-200 my-6"></div>
+    <!-- Sección Superior -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <!-- Logo y texto -->
+      <div class="text-center md:text-left">
+        <h2 class="text-2xl font-bold text-red-400">AuthApp</h2>
+        <p class="text-sm text-gray-600">
+          La mejor aplicación para autenticación de usuarios.
+        </p>
+      </div>
+      <!-- Navegación -->
+      <nav class="flex space-x-4 text-sm text-blue-400">
+        <a href="https://github.com/CastDev-j" class="hover:text-blue-600"
+          >Acerca de</a
+        >
+        <a href="https://castdev-j.netlify.app/" class="hover:text-blue-600"
+          >Mi Portafolio</a
+        >
+        <a href="mailto:andres2004_cj@outlook.com" class="hover:text-blue-600"
+          >Contacto</a
+        >
+      </nav>
+    </div>
+
+    <div class="border-t border-gray-200 my-6"></div>
+
+    {
+      isLoggedIn ? (
+        <div class="flex justify-center">
+          <div class="flex items-center space-x-4">
+            <span class="block w-6 h-6 bg-red-400 rounded-full animate-pulse" />
+            <p class="text-gray-700 font-medium">Usuario autenticado</p>
+          </div>
+        </div>
+      ) : (
+        <div class="flex justify-center">
+          <p class="text-gray-700 font-medium">
+            No sé porqué ni como estas aquí, pero bienvenido.
+          </p>
+        </div>
+      )
+    }
+
+    <div class="border-t border-gray-200 my-6"></div>
+
+    <div class="text-center text-sm text-gray-500">
+      <p>© 2024 AuthApp. Un proyecto de CastDev-j.</p>
+    </div>
+  </div>
+</footer>

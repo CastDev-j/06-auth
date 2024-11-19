@@ -1,0 +1,62 @@
+---
+import PersonIcon from "./icons/PersonIcon.astro";
+import NavigationLinkComponent from "./NavigationLinkComponent.astro";
+
+---
+
+<nav
+  class="relative p-4 flex justify-between items-center bg-white border-b-2 border-blue-400/50 animate"
+>
+  <!-- Logo Section -->
+  <div class="relative z-10 flex items-center gap-4">
+    <!-- Icon Wrapper -->
+    <PersonIcon
+      classAttributes="relative flex items-center justify-center w-12 h-12rounded-full "
+    />
+
+    <!-- Logo Text -->
+    <h1 class="relative text-xl font-extrabold text-gray-800">
+      <a
+        href="/"
+        class="hover:text-blue-500 transition-all duration-300 tracking-wide"
+      >
+        AuthApp
+      </a>
+    </h1>
+  </div>
+
+  <!-- Navigation Links -->
+  <div class="relative z-10 flex items-center space-x-6">
+    <!-- Articles Button -->
+    <NavigationLinkComponent
+      text="Protegida"
+      href="/protected"
+      type="primary"
+      id="protected-button"
+    />
+
+    <!-- Pagina Protegida -->
+    <NavigationLinkComponent
+      text="Salir"
+      href="#"
+      type="secondary"
+      id="close-sesion-button"
+    />
+  </div>
+</nav>
+
+<script>
+  "astro:page-load";
+  import { actions } from "astro:actions";
+
+  document.addEventListener("astro:page-load", () => {
+    const $closeSessionButton = document.getElementById(
+      "close-sesion-button"
+    ) as HTMLButtonElement;
+
+    $closeSessionButton.addEventListener("click", async () => {
+      await actions.logout();
+      window.location.replace("/login");
+    });
+  });
+</script>

@@ -1,0 +1,28 @@
+---
+interface Props {
+  text: string;
+  href: string;
+  type: "primary" | "secondary";
+  id: string;
+}
+
+const { text, href, type, id } = Astro.props;
+---
+
+<a
+  href={href}
+  class="relative font-medium text-gray-100 hover:text-white transition group"
+  id={id}
+>
+  <div
+    class="absolute inset-0 transform rounded-xl transition-transform duration-300 group-hover:translate-x-1 group-hover:rotate-3"
+    class:list={type === "primary" ? "bg-blue-400" : "bg-red-400"}
+  >
+  </div>
+  <div
+    class="absolute inset-0 transform rounded-xl transition-transform duration-300 group-hover:-translate-x-1 group-hover:-rotate-3"
+    class:list={type === "primary" ? "bg-red-400" : "bg-blue-400"}
+  >
+  </div>
+  <span class="relative z-10 px-4 py-2 block">{text}</span>
+</a>

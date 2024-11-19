@@ -1,7 +1,5 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
@@ -22,11 +20,7 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body>
-    <Header />
-    <main class="flex flex-col m-4">
-      <slot />
-    </main>
-    <Footer />
+    <slot />
   </body>
 </html>
 <style is:global>
@@ -34,6 +28,7 @@ const { title } = Astro.props;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
   }
 
   body::-webkit-scrollbar {
@@ -42,41 +37,28 @@ const { title } = Astro.props;
 
   .animate {
     opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-
-  .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(50px);
     transition:
       opacity 0.6s ease,
       transform 0.6s ease;
   }
 
-  .fade-up.show {
+  .animate.show {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .animate.show {
-    opacity: 1;
+  article img {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: block;
+    margin: 0 auto;
   }
 </style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const $elements = document.querySelectorAll(
-      ".animate"
-    ) as NodeListOf<HTMLElement>;
-    $elements.forEach(($element) => {
-      $element.classList.add("show");
-    });
-
-    const $fadeUpElements = document.querySelectorAll(
-      ".fade-up"
-    ) as NodeListOf<HTMLElement>;
-    $fadeUpElements.forEach(($element) => {
-      $element.classList.add("show");
-    });
+    const form = document.querySelector(".animate") as HTMLElement;
+    form.classList.add("show");
   });
 </script>

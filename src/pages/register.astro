@@ -1,0 +1,108 @@
+---
+import FormLayout from "../layouts/FormLayout.astro";
+import FormContainer from "../components/FormContainer.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title = "Registrar usuario" } = Astro.props;
+---
+
+<FormLayout {title}>
+  <FormContainer title={title}>
+    <form id="register-form" class="mt-6 space-y-6">
+      <!-- Name Input -->
+      <input
+        type="text"
+        name="name"
+        placeholder="Nombre completo"
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Email Input -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Correo electrónico"
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Password Input -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Contraseña"
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Divider -->
+      <div class="flex items-center text-gray-600 space-x-4">
+        <hr class="flex-1 border-gray-300" />
+        <span class="text-sm">Confirmar contraseña</span>
+        <hr class="flex-1 border-gray-300" />
+      </div>
+
+      <!-- Confirm Password Input -->
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirmar contraseña"
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        id="btn-submit"
+        class="w-full bg-blue-500 text-white py-3 rounded-xl shadow-md hover:shadow-lg focus:outline-none transition-transform transform hover:scale-105"
+      >
+        Registrarse
+      </button>
+
+      <!-- Signup Link -->
+      <div class="text-center text-sm text-gray-600">
+        <span>¿Ya tienes una cuenta?</span>
+        <a href="/login" class="text-blue-500 hover:underline ml-1"
+          >Inicia sesión</a
+        >
+      </div>
+    </form>
+  </FormContainer>
+</FormLayout>
+
+<script>
+  import { actions } from "astro:actions";
+  import Swal from "sweetalert2";
+
+  document.addEventListener("astro:page-load", () => {
+    const $form = document.querySelector("#register-form") as HTMLFormElement;
+    const $btnSubmit = document.querySelector(
+      "#btn-submit"
+    ) as HTMLButtonElement;
+
+    $form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      $btnSubmit.disabled = true;
+
+      const formData = new FormData($form);
+
+      const { data, error } = await actions.registerUser(formData);
+
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Credenciales inválidas",
+          text: error.message,
+        });
+
+        $btnSubmit.disabled = false;
+        if (error.message !== "Contraseñas no coinciden") $form.reset();
+
+        return;
+      }
+
+      window.location.replace("/");
+    });
+  });
+</script>

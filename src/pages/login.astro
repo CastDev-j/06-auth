@@ -1,0 +1,176 @@
+---
+import FormLayout from "../layouts/FormLayout.astro";
+import FormContainer from "../components/FormContainer.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title = "Iniciar Sesión" } = Astro.props;
+const email = Astro.cookies.get("email")?.value ?? "";
+const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
+---
+
+<FormLayout {title}>
+  <FormContainer title={title}>
+    <form id="login-form" class="mt-6 space-y-6">
+      <!-- Email Input -->
+      <input
+        type="email"
+        placeholder="Correo electrónico"
+        name="email"
+        value={rememberMe === "true" ? email : ""}
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Password Input -->
+      <input
+        type="password"
+        placeholder="Contraseña"
+        name="password"
+        class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
+      />
+
+      <!-- Remember Me and Forgot Password -->
+      <div class="flex justify-between items-center text-sm text-gray-600">
+        <label class="flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            name="rememberMe"
+            class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 rounded"
+          />
+          <span class="ml-2">Recuérdame</span>
+        </label>
+        <a href="#" class="hover:underline">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        id="btn-submit"
+        class="w-full bg-blue-500 text-white py-3 rounded-xl shadow-md hover:shadow-lg focus:outline-none transition-transform transform hover:scale-105"
+      >
+        Iniciar Sesión
+      </button>
+
+      <!-- Divider -->
+      <div class="flex items-center text-gray-600 space-x-4">
+        <hr class="flex-1 border-gray-300" />
+        <span class="text-sm">Accede con</span>
+        <hr class="flex-1 border-gray-300" />
+      </div>
+
+      <!-- Social Login Buttons -->
+      <div class="flex justify-center space-x-4">
+        <button
+          type="button"
+          class="bg-blue-500 text-white px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
+        >
+          Github
+        </button>
+        <button
+          type="button"
+          id="btn-google"
+          class="bg-red-500 text-white px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
+        >
+          Google
+        </button>
+      </div>
+
+      <!-- Signup Link -->
+      <div class="text-center text-sm text-gray-600">
+        <span>¿Eres nuevo?</span>
+        <a href="/register" class="text-blue-500 hover:underline ml-1"
+          >Crea una cuenta</a
+        >
+      </div>
+    </form>
+  </FormContainer>
+</FormLayout>
+
+<script>
+  "astro:load";
+
+  import { actions } from "astro:actions";
+  import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+  import Swal from "sweetalert2";
+import { firebase } from "../firebase/config";
+
+  document.addEventListener("astro:page-load", () => {
+    formLoginLogic();
+  });
+
+  const formLoginLogic = () => {
+    const $form = document.querySelector("#login-form") as HTMLFormElement;
+    const $btnSubmit = document.querySelector(
+      "#btn-submit"
+    ) as HTMLButtonElement;
+    const $btnGoogle = document.querySelector(
+      "#btn-google"
+    ) as HTMLButtonElement;
+
+    $form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData($form);
+
+      const { data, error } = await actions.loginUser(formData);
+
+      if (error) {
+        showError(error);
+        return;
+      }
+      window.location.href = "/";
+    });
+
+    $btnGoogle.addEventListener("click", async () => {
+      
+      $btnGoogle.disabled = true;
+      const provider = new GoogleAuthProvider();
+
+      try {
+
+        //! paso 1: obtener credenciales
+        const credentials = await signInWithPopup(firebase.auth, provider);
+        
+        //! paso 2: Verificar las credenciales en el backend
+        const {error} = await actions.loginGoogleUser(credentials);
+
+        if (error) {
+          showError(error);
+          $btnGoogle.disabled = false;
+          return;
+        }
+
+
+        $btnGoogle.innerText = "Redireccionando...";
+        window.location.href = "/";
+        console.log(credentials);
+        
+      } catch (error) {
+        $btnGoogle.disabled = false;
+        console.log(error);
+      }
+    });
+  };
+
+  const getErrorMessage = (error: Error) => {
+    return error.message.length > 123
+      ? "Hay un error en la entrada, por favor revise los campos."
+      : error.message;
+  };
+
+  const showError = (error: Error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: getErrorMessage(error),
+    });
+  };
+</script>
+
+<style>
+  .swal2-container {
+    display: none !important;
+  }
+</style>
