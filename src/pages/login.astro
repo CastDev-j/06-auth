@@ -64,6 +64,7 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
       <div class="flex justify-center space-x-4">
         <button
           type="button"
+          id="btn-github"
           class="bg-blue-500 text-white px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
         >
           Github
@@ -92,7 +93,7 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
   "astro:load";
 
   import { actions } from "astro:actions";
-  import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+  import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
   import Swal from "sweetalert2";
 import { firebase } from "../firebase/config";
 
@@ -108,6 +109,8 @@ import { firebase } from "../firebase/config";
     const $btnGoogle = document.querySelector(
       "#btn-google"
     ) as HTMLButtonElement;
+    const $btnGithub = document.querySelector(
+      "#btn-github") as HTMLButtonElement;
 
     $form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -152,7 +155,41 @@ import { firebase } from "../firebase/config";
         console.log(error);
       }
     });
+
+
+    $btnGithub.addEventListener("click", async () => {
+      
+      $btnGithub.disabled = true;
+      const provider = new GithubAuthProvider();
+
+      try {
+
+        //! paso 1: obtener credenciales
+        const credentials = await signInWithPopup(firebase.auth, provider);
+        
+        //! paso 2: Verificar las credenciales en el backend
+        const {error} = await actions.loginGithubUser(credentials);
+
+        if (error) {
+          showError(error);
+          $btnGithub.disabled = false;
+          return;
+        }
+
+
+        $btnGithub.innerText = "Redireccionando...";
+        window.location.href = "/";
+        console.log(credentials);
+        
+      } catch (error) {
+        $btnGithub.disabled = false;
+        console.log(error);
+      }
+    });
   };
+
+
+  
 
   const getErrorMessage = (error: Error) => {
     return error.message.length > 123

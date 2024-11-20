@@ -1,3 +1,4 @@
+export * from './login-github.action';
 export * from './login-google.action';
 export * from './login.action';
 export * from './logout.action';
