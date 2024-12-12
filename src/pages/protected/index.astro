@@ -1,22 +1,8 @@
 ---
-import { Image } from "astro:assets";
-import { firebase } from "../../firebase/config";
-import Layout from "../../layouts/Layout.astro";
+import { firebase } from "@/firebase/config";
+import Layout from "@/layouts/Layout.astro";
 
 const firebaseUser = firebase.auth.currentUser;
-
-// if (!firebaseUser) {
-//   return Astro.redirect("/login");
-// }
-
-// await firebaseUser?.reload();
-// const { displayName, email, emailVerified, avatar } = firebaseUser;
-
-// const name = displayName ?? "Invitado";
-
-// if (true) {
-//     return Astro.redirect("/");
-// }
 
 const { user, isLoggedIn } = Astro.locals;
 
@@ -30,10 +16,10 @@ const { avatar, email, name } = user;
 ---
 
 <Layout title="Pagina Protegida">
-  <!-- component -->
-  <div class="my-40 flex justify-center items-center font-sans bg-white fade-up">
+  <div
+    class="my-40 flex justify-center items-center font-sans bg-white fade-up"
+  >
     <div class="card border bg-white mx-auto p-6 rounded-lg max-w-md">
-      <!-- Imagen del perfil -->
       {
         avatar ? (
           <img
@@ -49,7 +35,7 @@ const { avatar, email, name } = user;
           </div>
         )
       }
-      <!-- Información del perfil -->
+
       <div class="text-center mt-6 fade-up" style="transition-delay: .1s;">
         <h1 class="text-2xl font-bold text-blue-400">{name}</h1>
         <p class="text-sm font-medium text-gray-700">{email}</p>
@@ -92,15 +78,14 @@ const { avatar, email, name } = user;
           }
         </div>
       </div>
-      <!-- Descripción -->
-      <div class="px-6 mt-4 text-center text-sm text-gray-700 fade-up" style="transition-delay: .1s;"
-        <p id="description">
-          Frontend Developer, avid reader. Love to take a long walk, swim.
-        </p>
+      <div
+        class="px-6 mt-4 text-center text-sm text-gray-700 fade-up"
+        style="transition-delay: .1s;"
+        id="description"
+      >
+        Frontend Developer, avid reader. Love to take a long walk, swim.
       </div>
-      <!-- Línea divisoria -->
       <hr class="mt-6 border-t-2 border-gray-200" />
-      <!-- Estadísticas --> 
       <div class="flex mt-6 fade-up" style="transition-delay: .2s;">
         <div class="w-1/2 text-center">
           <span class="font-bold text-lg text-red-400"
