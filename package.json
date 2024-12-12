@@ -20,7 +20,7 @@
     "06-auth": "file:",
     "animejs": "^3.2.2",
     "astro": "^4.16.13",
-    "firebase": "^11.0.2",
+    "firebase": "^11.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "shiki": "^1.23.1",

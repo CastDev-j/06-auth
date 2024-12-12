@@ -8,13 +8,12 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCkpiRxrUijof6PAigJRM1vjFJJTdEGFEI",
-  authDomain: "astro-base.firebaseapp.com",
-  projectId: "astro-base",
-  storageBucket: "astro-base.firebasestorage.app",
-  messagingSenderId: "930569740148",
-  appId: "1:930569740148:web:0c1eb67107e27e551f1621",
-  measurementId: "G-7DHXHDL4M4"
+  apiKey: "AIzaSyA_SpC70o-BnMqVh00f_sJC-fnJshdO-mI",
+  authDomain: "horarios-267a3.firebaseapp.com",
+  projectId: "horarios-267a3",
+  storageBucket: "horarios-267a3.firebasestorage.app",
+  messagingSenderId: "932463148621",
+  appId: "1:932463148621:web:4ac27943cd0bbd1256e604"
 };
 
 // Initialize Firebase
