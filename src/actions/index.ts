@@ -1,4 +1,4 @@
-import { loginGithubUser, loginGoogleUser, loginUser, registerUser } from "./auth";
+import { loginGithubUser, loginGoogleUser, loginUser, registerUser, resetPassword } from "./auth";
 import { logout } from "./auth/logout.action";
 
 export const server = {
@@ -14,4 +14,5 @@ export const server = {
   loginUser,
   loginGoogleUser,
   loginGithubUser,
+  resetPassword,
 };

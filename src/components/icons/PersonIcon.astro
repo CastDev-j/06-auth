@@ -1,5 +1,4 @@
 ---
-
 interface Props {
   classAttributes: string;
 }
@@ -7,8 +6,13 @@ interface Props {
 const { classAttributes } = Astro.props;
 ---
 
-<svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" class={classAttributes}>
-  ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+<svg
+  viewBox="0 0 500 500"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class={classAttributes}
+>
+  <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
     id="SVGRepo_tracerCarrier"
     stroke-linecap="round"
     stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">

@@ -1,12 +1,12 @@
 ---
-import FormLayout from "../layouts/FormLayout.astro";
-import FormContainer from "../components/FormContainer.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import FormContainer from "@/components/FormContainer.astro";
 
 interface Props {
   title: string;
 }
 
-const { title = "Registrar usuario" } = Astro.props;
+const { title = "Timely | Registrar usuario" } = Astro.props;
 ---
 
 <FormLayout {title}>

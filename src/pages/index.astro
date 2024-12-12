@@ -1,149 +1,25 @@
 ---
-import { firebase } from "../firebase/config";
-import Layout from "../layouts/Layout.astro";
-import { codeToHtml } from "shiki";
-
+import { firebase } from "@/firebase/config";
+import Layout from "@/layouts/Layout.astro";
 const firebaseUser = firebase.auth.currentUser;
-
 if (!firebaseUser) {
   return Astro.redirect("/login");
 }
-
-const code = `const greeting = "Hello, Astro!";`;
-const html = await codeToHtml(code, {
-  lang: "javascript",
-  theme: "github-light-default",
-});
-
-const install = codeToHtml("npm install", {
-  lang: "bash",
-  theme: "github-light-default",
-});
-
-const start = codeToHtml("npm start", {
-  lang: "bash",
-  theme: "github-light-default",
-});
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Timely | Inicio">
   <div class="contenedor">
-    <h1 class="fade-up">Documentación del Proyecto</h1>
+    <div class="fade-up">
+      <h1>
+        Sección en desarrollo
+      </h1>
+    </div>
 
     <div class="fade-up" style="transition-delay: .1s;">
-      <h2>Introducción</h2>
-      <p>
-        Página de práctica para mejorar habilidades con <strong>Astro</strong>, <strong
-          >Firebase</strong
-        >, <strong>HTML</strong>, <strong>TypeScript</strong>, y <strong
-          >Tailwind</strong
-        >. Incluye autenticación y validación de correos con <strong
-          >Firebase Authentication</strong
-        >.
-      </p>
-    </div>
-
-    <div class="fade-up" style="transition-delay: .2s;">
-      <hr />
-      <h2>Tecnologías Utilizadas</h2>
-      <ul>
-        <li><strong>Astro</strong>: Framework para generación estática.</li>
-        <li><strong>Firebase</strong>: Autenticación y base de datos.</li>
-        <li><strong>HTML y TypeScript</strong>: Estructura y funcionalidad.</li>
-        <li><strong>Tailwind CSS</strong>: Diseño rápido y responsivo.</li>
-      </ul>
-    </div>
-
-    <div class="fade-up" style="transition-delay: .3s;">
-      <hr />
-      <h2>Características</h2>
-      <ol>
-        <li>
-          <strong>Autenticación de Usuarios</strong>: Registro e inicio de
-          sesión.
-        </li>
-        <li>
-          <strong>Validación de Correos</strong>: Verificación de cuentas.
-        </li>
-        <li>
-          <strong>Estilo Responsivo</strong>: Adaptación a diferentes tamaños de
-          pantalla.
-        </li>
-        <li>
-          <strong>Soporte de Usuarios de Google</strong>: Inicio de sesión con
-          Google.
-        </li>
-      </ol>
-    </div>
-
-    <div class="fade-up" style="transition-delay: .3s;">
-      <hr />
-      <h2>Instalación</h2>
-      <p>Sigue estos pasos:</p>
-      <ol>
-        <li>
-          <strong>Clona el repositorio</strong> desde <a
-            href="https://github.com/CastDev-j/06-auth">GitHub</a
-          >.
-        </li>
-        <li>
-          <strong>Instala las dependencias</strong> con <div
-            class="p-4"
-            set:html={install}
-          />
-        </li>
-        <li>
-          <strong>Inicia el servidor de desarrollo</strong> con <div
-            class="p-4"
-            set:html={start}
-          />
-        </li>
-      </ol>
-
-      <hr />
-
-      <h2>Uso</h2>
-      <p>Una vez iniciado el servidor, los usuarios pueden:</p>
-      <ul>
-        <li>Registrarse con correo y contraseña.</li>
-        <li>Recibir un correo de verificación.</li>
-        <li>Iniciar sesión para acceder a contenido exclusivo.</li>
-      </ul>
-
-      <hr />
-
-      <h2>Objetivos del Proyecto</h2>
-      <ul>
-        <li><strong>Integración de Firebase Authentication</strong>.</li>
-        <li><strong>Validación de correos electrónicos</strong>.</li>
-        <li>
-          <strong>Diseño responsivo</strong> con <strong>Tailwind CSS</strong>.
-        </li>
-        <li><strong>Optimización del flujo de trabajo</strong> con Astro.</li>
-      </ul>
-
-      <hr />
-
-      <h2>Conclusión</h2>
-      <p>
-        Este proyecto está diseñado para mejorar habilidades con Astro y
-        Firebase. Aún no tiene las optimizaciones necesarias, para desplegar en
-        producción.
-      </p>
-      <p>
-        Si tienes alguna pregunta o sugerencia, no dudes en hacer la pull request o 
-        un issue en el repositorio de GitHub.
-      </p>
+      <h1></h1>
     </div>
   </div>
 </Layout>
-
-<script type="module">
-  import Prism from "prismjs";
-  import "prismjs/components/prism-haml.min.js";
-
-  Prism.highlightAll();
-</script>
 
 <style>
   .contenedor {

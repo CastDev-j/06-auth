@@ -1,6 +1,10 @@
 import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
-import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { firebase } from "../../firebase/config";
 import type { AuthError } from "firebase/auth/cordova";
 
@@ -41,10 +45,9 @@ export const registerUser = defineAction({
 
       // Verificar Correo
 
-     await sendEmailVerification(firebase.auth.currentUser!, {
+      await sendEmailVerification(firebase.auth.currentUser!, {
         url: `${import.meta.env.WEBSITE_URL}/protected`,
-     });
-
+      });
 
       return user;
     } catch (error) {
