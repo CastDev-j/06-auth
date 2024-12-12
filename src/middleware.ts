@@ -3,7 +3,7 @@ import { defineMiddleware } from "astro:middleware";
 import { firebase } from "./firebase/config";
 
 const privateRoutes = ["/protected", "/"];
-const notAuthenticatedRoutes = ["/login", "/register"];
+const notAuthenticatedRoutes = ["/login", "/register", "/reset-password"];
 
 export const onRequest = defineMiddleware(async (context, next) => {
 
