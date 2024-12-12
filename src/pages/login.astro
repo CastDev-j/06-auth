@@ -14,7 +14,6 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
 <FormLayout {title}>
   <FormContainer title={title}>
     <form id="login-form" class="mt-6 space-y-6">
-      <!-- Email Input -->
       <input
         type="email"
         placeholder="Correo electrónico"
@@ -23,7 +22,6 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Password Input -->
       <input
         type="password"
         placeholder="Contraseña"
@@ -31,7 +29,6 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Remember Me and Forgot Password -->
       <div class="flex justify-between items-center text-sm text-gray-600">
         <label class="flex items-center cursor-pointer">
           <input
@@ -46,7 +43,6 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
         >
       </div>
 
-      <!-- Submit Button -->
       <button
         type="submit"
         id="btn-submit"
@@ -55,14 +51,12 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
         Iniciar Sesión
       </button>
 
-      <!-- Divider -->
       <div class="flex items-center text-gray-600 space-x-4">
         <hr class="flex-1 border-gray-300" />
         <span class="text-sm">Accede con</span>
         <hr class="flex-1 border-gray-300" />
       </div>
 
-      <!-- Social Login Buttons -->
       <div class="flex justify-center space-x-4">
         <button
           type="button"
@@ -80,7 +74,6 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
         </button>
       </div>
 
-      <!-- Signup Link -->
       <div class="text-center text-sm text-gray-600">
         <span>¿Eres nuevo?</span>
         <a href="/register" class="text-blue-500 hover:underline ml-1"
@@ -117,7 +110,24 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
 
       const formData = new FormData($form);
 
-      const { data, error } = await actions.loginUser(formData);
+      const {email, password} = Object.fromEntries(formData);
+      
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+      const emaliRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      const isValidEmail =  (email as String).match(emaliRegex);
+      const isValidPassword = (password as String).match(passwordRegex);
+
+      if (!isValidEmail) {
+        showError(new Error("El correo electrónico no es válido"));
+        return;
+      }
+
+      if (!isValidPassword) {
+        showError(new Error("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número"));
+        return;
+      }
+
+      const { error } = await actions.loginUser(formData);
 
       if (error) {
         showError(error);
@@ -131,10 +141,8 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
       const provider = new GoogleAuthProvider();
 
       try {
-        //! paso 1: obtener credenciales
         const credentials = await signInWithPopup(firebase.auth, provider);
 
-        //! paso 2: Verificar las credenciales en el backend
         const { error } = await actions.loginGoogleUser(credentials);
 
         if (error) {
@@ -145,10 +153,8 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
 
         $btnGoogle.innerText = "Redireccionando...";
         window.location.href = "/";
-        console.log(credentials);
       } catch (error) {
         $btnGoogle.disabled = false;
-        console.log(error);
       }
     });
 
@@ -157,10 +163,8 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
       const provider = new GithubAuthProvider();
 
       try {
-        //! paso 1: obtener credenciales
         const credentials = await signInWithPopup(firebase.auth, provider);
 
-        //! paso 2: Verificar las credenciales en el backend
         const { error } = await actions.loginGithubUser(credentials);
 
         if (error) {
@@ -171,25 +175,17 @@ const rememberMe = Astro.cookies.get("rememberMe")?.value ?? "";
 
         $btnGithub.innerText = "Redireccionando...";
         window.location.href = "/";
-        console.log(credentials);
       } catch (error) {
         $btnGithub.disabled = false;
-        console.log(error);
       }
     });
   });
-
-  const getErrorMessage = (error: Error) => {
-    return error.message.length > 123
-      ? "Hay un error en la entrada, por favor revise los campos."
-      : error.message;
-  };
 
   const showError = (error: Error) => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: getErrorMessage(error),
+      text: error.message,
     });
   };
 </script>

@@ -1,29 +1,12 @@
 ---
 import { firebase } from "@/firebase/config";
 import Layout from "@/layouts/Layout.astro";
-import { codeToHtml } from "shiki";
 
 const firebaseUser = firebase.auth.currentUser;
 
 if (!firebaseUser) {
   return Astro.redirect("/login");
 }
-
-const code = `const greeting = "Hello, Astro!";`;
-const html = await codeToHtml(code, {
-  lang: "javascript",
-  theme: "github-light-default",
-});
-
-const install = codeToHtml("npm install", {
-  lang: "bash",
-  theme: "github-light-default",
-});
-
-const start = codeToHtml("npm start", {
-  lang: "bash",
-  theme: "github-light-default",
-});
 ---
 
 <Layout title="Timely | Documentación">
@@ -95,13 +78,6 @@ const start = codeToHtml("npm start", {
     </footer>
   </div>
 </Layout>
-
-<script type="module">
-  import Prism from "prismjs";
-  import "prismjs/components/prism-haml.min.js";
-
-  Prism.highlightAll();
-</script>
 
 <style>
   .contenedor {

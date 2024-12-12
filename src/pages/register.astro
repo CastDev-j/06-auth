@@ -12,7 +12,6 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
 <FormLayout {title}>
   <FormContainer title={title}>
     <form id="register-form" class="mt-6 space-y-6">
-      <!-- Name Input -->
       <input
         type="text"
         name="name"
@@ -20,15 +19,13 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Email Input -->
       <input
-        type="email"
+        type="text"
         name="email"
         placeholder="Correo electrónico"
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Password Input -->
       <input
         type="password"
         name="password"
@@ -36,14 +33,12 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Divider -->
       <div class="flex items-center text-gray-600 space-x-4">
         <hr class="flex-1 border-gray-300" />
         <span class="text-sm">Confirmar contraseña</span>
         <hr class="flex-1 border-gray-300" />
       </div>
 
-      <!-- Confirm Password Input -->
       <input
         type="password"
         name="confirmPassword"
@@ -51,7 +46,6 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
         class="w-full h-12 bg-gray-100 rounded-xl shadow-md placeholder-gray-500 focus:bg-blue-100 focus:outline-none px-4"
       />
 
-      <!-- Submit Button -->
       <button
         type="submit"
         id="btn-submit"
@@ -60,7 +54,6 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
         Registrarse
       </button>
 
-      <!-- Signup Link -->
       <div class="text-center text-sm text-gray-600">
         <span>¿Ya tienes una cuenta?</span>
         <a href="/login" class="text-blue-500 hover:underline ml-1"
@@ -87,22 +80,62 @@ const { title = "Timely | Registrar usuario" } = Astro.props;
 
       const formData = new FormData($form);
 
-      const { data, error } = await actions.registerUser(formData);
+      const { error } = await actions.registerUser(formData);
+
+      const {email, password, name, confirmPassword} = Object.fromEntries(formData);
+      
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+      const emaliRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+      const isValidEmail =  (email as String).match(emaliRegex);
+      const isValidPassword = (password as String).match(passwordRegex);
+      const isValidName = (name as String).length > 3;
+      const isValidConfirmPassword = (confirmPassword as String) == (password as String);
+
+      if (!isValidEmail) {
+        showError(new Error("El correo electrónico no es válido"));
+        $btnSubmit.disabled = false;
+        return;
+      }
+
+      if (!isValidPassword) {
+        showError(new Error("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número"));
+        $btnSubmit.disabled = false;
+        return;
+      }
+
+      if (!isValidName) {
+        showError(new Error("El nombre no es válido"));
+        $btnSubmit.disabled = false;
+        return;
+      }
+
+      if (!isValidConfirmPassword) {
+        showError(new Error("Contraseñas no coinciden"));
+        $btnSubmit.disabled = false;
+        return;
+      }
+
 
       if (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Credenciales inválidas",
-          text: error.message,
-        });
-
+        showError(error);
         $btnSubmit.disabled = false;
         if (error.message !== "Contraseñas no coinciden") $form.reset();
 
         return;
       }
 
+      $btnSubmit.innerText = "Redireccionando...";
+
       window.location.replace("/");
     });
   });
+
+  const showError = (error: Error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: error.message,
+    });
+  };
 </script>

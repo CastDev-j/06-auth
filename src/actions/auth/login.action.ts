@@ -4,15 +4,20 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebase } from "../../firebase/config";
 import type { AuthError } from "firebase/auth/cordova";
 
+const strongPasswordSchema = z.string().min(8)
+  .regex(/[A-Z]/, 'Debe contener al menos una letra mayúscula')
+  .regex(/[a-z]/, 'Debe contener al menos una letra minúscula')
+  .regex(/[0-9]/, 'Debe contener al menos un número')
+  .regex(/[@$!%*?&#]/, 'Debe contener al menos un carácter especial');
+
 export const loginUser = defineAction({
   accept: "form",
   input: z.object({
     email: z.string().email(),
-    password: z.string().min(6),
+    password: strongPasswordSchema,
     rememberme: z.boolean(),
   }),
   handler: async ({ password, email, rememberme }, { cookies }) => {
-    // Grabar Correo en Cookies
 
     if (rememberme) {
       cookies.set("email", email, {
@@ -21,7 +26,6 @@ export const loginUser = defineAction({
       });
     }
 
-    // Iniciar Sesion
     try {
       const result = await signInWithEmailAndPassword(
         firebase.auth,
@@ -34,10 +38,6 @@ export const loginUser = defineAction({
         email: result.user.email,
       };
 
-      // Mostrar campos del usuario
-
-      
-      // Verificar Correo
       return user;
     } catch (error) {
       const firebaseError = error as AuthError;
@@ -62,7 +62,7 @@ export const loginUser = defineAction({
         throw new Error("Correo Invalido");
       }
 
-      throw new Error("Valio Verga y no se por que");
+      throw new Error("Error inesperado");
     }
   },
 });
