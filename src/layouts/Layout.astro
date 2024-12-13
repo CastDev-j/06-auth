@@ -2,6 +2,7 @@
 import { ViewTransitions } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import '@/styles/global.css';
 
 interface Props {
   title: string;
@@ -21,47 +22,12 @@ const { title } = Astro.props;
     <title>{title}</title>
     <ViewTransitions />
   </head>
-  <body>
+  <body class="w-full flex flex-col items-center">
     <Header />
-    <main class="flex flex-col m-4">
-      <slot />
-    </main>
+    <slot />
     <Footer />
   </body>
 </html>
-<style is:global>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body::-webkit-scrollbar {
-    display: none;
-  }
-
-  .animate {
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-
-  .fade-up {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
-
-  .fade-up.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .animate.show {
-    opacity: 1;
-  }
-</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
