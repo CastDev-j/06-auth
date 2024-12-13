@@ -8,6 +8,8 @@ import {
 import { firebase } from "../../firebase/config";
 import type { AuthError } from "firebase/auth/cordova";
 
+const { WEBSITE_URL } = import.meta.env;
+
 export const registerUser = defineAction({
   accept: "form",
   input: z.object({
@@ -46,7 +48,7 @@ export const registerUser = defineAction({
       // Verificar Correo
 
       await sendEmailVerification(firebase.auth.currentUser!, {
-        url: `${import.meta.env.WEBSITE_URL}/protected`,
+        url: `${WEBSITE_URL}/protected`,
       });
 
       return user;

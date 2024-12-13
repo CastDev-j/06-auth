@@ -1,0 +1,64 @@
+[
+  {
+    "userUid": "9v3G9vfB6KZr21uaApN6OYoPjqM2",
+    "schedules": []
+  },
+  {
+    "userUid": "7f2F4tfP6LRr11uaBpN4PYoYqrM3",
+    "schedules": [
+      {
+        "id": "1",
+        "title": "Horario del Semestre 2",
+        "description": "Horario del segundo semestre",
+        "subjects": [
+          {
+            "subjectId": "MAT101",
+            "name": "Matemáticas",
+            "code": "MAT101",
+            "teacher": "Prof. García",
+            "schedules": [
+              {
+                "day": "Lunes",
+                "startTime": "07:00",
+                "endTime": "08:00"
+              },
+              {
+                "day": "Lunes",
+                "startTime": "09:00",
+                "endTime": "10:00"
+              },
+              {
+                "day": "Martes",
+                "startTime": "08:00",
+                "endTime": "09:00"
+              },
+              {
+                "day": "Jueves",
+                "startTime": "07:00",
+                "endTime": "12:00"
+              },
+              {
+                "day": "Sábado",
+                "startTime": "07:00",
+                "endTime": "08:00"
+              }
+            ]
+          },
+          {
+            "subjectId": "HIS202",
+            "name": "Historia",
+            "code": "HIS202",
+            "teacher": null,
+            "schedules": [
+              {
+                "day": "Lunes",
+                "startTime": "09:00",
+                "endTime": "10:00"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

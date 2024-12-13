@@ -1,18 +1,36 @@
 ---
 import { firebase } from "@/firebase/config";
 import Layout from "@/layouts/Layout.astro";
+import { Test } from "@/components/app/test";
+import { Horarios } from "@/components/app/Horarios";
 const firebaseUser = firebase.auth.currentUser;
 if (!firebaseUser) {
   return Astro.redirect("/login");
 }
+
+const { uid } = firebaseUser;
 ---
 
 <Layout title="Timely | Inicio">
   <div class="contenedor">
     <div class="fade-up">
-      <h1>
-        Sección en desarrollo
-      </h1>
+      <h1>Inicio</h1>
+
+      <article>
+        <p>
+          <strong>Bienvenido a Timely</strong>, debajo encontrarás tus horarios
+          de clases.
+        </p>
+        <p>
+          <strong>Si aún no tienes horarios</strong>, que esperas para crearlos.
+        </p>
+      </article>
+      <hr />
+    </div>
+    <div class="fade-up w-full" style="transition-delay: .1s;">
+      <!-- <Horarios client:load uid={"7f2F4tfP6LRr11uaBpN4PYoYqrM3"}/> -->
+      <Horarios client:load {uid} />
+      <hr />
     </div>
 
     <div class="fade-up" style="transition-delay: .1s;">
@@ -23,23 +41,19 @@ if (!firebaseUser) {
 
 <style>
   .contenedor {
-    @apply w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply w-full p-6 sm:p-8 lg:p-10;
   }
 
   h1 {
-    @apply text-red-400 text-4xl font-bold mb-4;
+    @apply text-blue-400 text-4xl font-bold mb-4;
   }
 
   h2 {
-    @apply text-blue-400 text-2xl font-semibold mt-6 mb-2;
+    @apply text-red-400 text-2xl font-semibold mt-6 mb-2;
   }
 
   p {
-    @apply text-gray-700 text-base leading-relaxed mb-4;
-  }
-
-  hr {
-    @apply border-t border-gray-300 my-6;
+    @apply text-gray-700 text-base leading-relaxed;
   }
 
   ul {

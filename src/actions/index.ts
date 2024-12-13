@@ -4,6 +4,7 @@ import { loginGoogleUser } from "@/actions/auth/login-google.action";
 import { loginUser } from "@/actions/auth/login.action";
 import { logout } from "@/actions/auth/logout.action";
 import { registerUser } from "@/actions/auth/register.action";
+import { getAllByUidAction } from "./schedule/get-all-by-uid.action";
 
 export const server = {
   resetPassword,
@@ -12,4 +13,5 @@ export const server = {
   loginUser,
   logout,
   registerUser,
+  getAllByUidAction,
 };
