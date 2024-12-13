@@ -157,7 +157,7 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
 
       {/* Seccion Horarios */}
       {subjects.length > 0 ? (
-        <form className="flex flex-col gap-6 fade-in-up" name="schedule-subjects">
+        <form className="flex flex-col gap-6 mt-12 fade-in-up" name="schedule-subjects">
           <h2 className="text-blue-400 text-xl w-full bg-blue-50 p-2 rounded-lg tracking-wide text-center font-semibold">
             Configuración Final de Materias y Horarios
           </h2>
