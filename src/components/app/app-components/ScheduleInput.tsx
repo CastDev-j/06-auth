@@ -79,7 +79,7 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
 
       {/* Nueva Materia */}
       <form
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-6 mt-12"
         onSubmit={(e) => e.preventDefault()}
       >
         <h2 className="text-blue-400 text-xl w-full bg-blue-50 p-2 rounded-lg tracking-wide text-center font-semibold">
@@ -131,17 +131,17 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
           {/* Lista de materias */}
           <section className="w-full bg-white text-blue-400">
             <div className="flex justify-between px-4 py-2 text-center font-semibold bg-white border-b-2 border-blue-100">
-              <span className="w-full ">Materia</span>
-              <span className="w-full">Accion</span>
+              <span className="w-full lg:w-2/3">Materia</span>
+              <span className="w-full lg:w-1/3">Accion</span>
             </div>
             {subjects.map((subject, index) => (
               <div
                 key={index}
                 className="flex justify-between px-4 py-4 text-center font-semibold bg-white fade-in-up"
               >
-                <span className="w-full p-2">{subject}</span>
+                <span className="w-full p-2 lg:w-2/3 overflow-hidden truncate">{subject}</span>
                 <button
-                  className="bg-red-400 text-white p-2 rounded-lg w-full hover:bg-red-500 transition-all duration-300 active:bg-red-500 active:scale-105"
+                  className="bg-red-400 text-white p-2 rounded-lg w-full hover:bg-red-500 transition-all duration-300 active:bg-red-500 active:scale-105 lg:w-1/3"
                   onClick={() => {
                     const newSubjects = subjects.filter((s) => s !== subject);
                     setSubjects(newSubjects);
@@ -171,7 +171,7 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
           <ul className="flex gap-4 bg-blue-50 p-4 rounded-lg flex-wrap">
             {subjects.map((subject) => (
               <li
-                className={`p-2 rounded-lg cursor-pointer  transition-all duration-300
+                className={`p-2 max-w-56 truncate rounded-lg cursor-pointer  transition-all duration-300
                     ${selectedSubject === subject ? "bg-blue-500 text-blue-100 " : " bg-blue-100 text-blue-400 hover:bg-blue-200"}`}
                 onClick={() => {
                   setSelectedSubject(subject);
