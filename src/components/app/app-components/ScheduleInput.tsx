@@ -77,9 +77,11 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
         />
       </form>
 
+      <hr />
+
       {/* Nueva Materia */}
       <form
-        className="flex flex-col gap-6 mt-12"
+        className="flex flex-col gap-6 "
         onSubmit={(e) => e.preventDefault()}
       >
         <h2 className="text-blue-400 text-xl w-full bg-blue-50 p-2 rounded-lg tracking-wide text-center font-semibold">
@@ -128,6 +130,8 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
             Agregar Materia
           </button>
 
+          <hr />
+
           {/* Lista de materias */}
           <section className="w-full bg-white text-blue-400">
             <div className="flex justify-between px-4 py-2 text-center font-semibold bg-white border-b-2 border-blue-100">
@@ -155,9 +159,11 @@ export const ScheduleInput = ({ scheduleId = "" }) => {
         </div>
       </form>
 
+      <hr />
+
       {/* Seccion Horarios */}
       {subjects.length > 0 ? (
-        <form className="flex flex-col gap-6 mt-12 fade-in-up" name="schedule-subjects">
+        <form className="flex flex-col gap-6 fade-in-up" name="schedule-subjects">
           <h2 className="text-blue-400 text-xl w-full bg-blue-50 p-2 rounded-lg tracking-wide text-center font-semibold">
             Configuración Final de Materias y Horarios
           </h2>

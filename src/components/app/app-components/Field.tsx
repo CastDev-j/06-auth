@@ -26,13 +26,13 @@ export const Field: React.FC<FieldProps> = ({
 
   return (
     <section className="flex gap-6 justify-center items-center">
-      <label htmlFor={id} className="text-blue-400 text-lg font-semibold w-1/4">
+      <label htmlFor={id} className="text-blue-400 text-lg font-semibold w-4/12 text-balance ">
         {label}
       </label>
       {type === "textarea" ? (
         <textarea
           id={id}
-          className={`h-28 w-3/4 border-2 ${
+          className={`h-28 w-8/12 border-2 ${
             isValid ? "border-blue-300" : "border-red-400"
           } text-lg rounded-md p-2 ${
             isValid
@@ -51,7 +51,7 @@ export const Field: React.FC<FieldProps> = ({
         <input
           id={id}
           type={type}
-          className={`w-3/4 border-2 ${
+          className={`w-8/12 border-2 ${
             isValid ? "border-blue-300" : "border-red-400"
           } text-lg rounded-md p-2 ${
             isValid
